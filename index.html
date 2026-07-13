@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#2a2028" />
 <title>Abdulsamad Sanni · Portfolio</title>
 <meta name="description" content="Portfolio of Abdulsamad Sanni — CS student at Carleton University focused on applied ML, computer vision, and design." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -176,6 +177,43 @@ html, body {
   background: var(--amber);
   color: #33241a;
   outline: none;
+}
+
+/* ============================================================
+   MOBILE LAYOUT — everything flows, nothing overlaps
+   ============================================================ */
+@media (max-width: 700px) {
+  .room-wrap {
+    min-height: auto;
+    padding: 22px 0 12px;
+    justify-content: flex-start;
+  }
+  .hero-title {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+  }
+  /* enlarge the scene and crop the outer edges so the desk fills the width */
+  .scene {
+    width: 138%;
+    max-width: none;
+    margin: 4px 0 14px;
+  }
+  .plain-nav {
+    position: static;
+    transform: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: min(92%, 400px);
+    margin: 0 auto 6px;
+    padding: 0;
+  }
+  .plain-nav button {
+    width: 100%;
+    padding: 13px 8px;
+    font-size: .78rem;
+  }
 }
 
 /* ============================================================
