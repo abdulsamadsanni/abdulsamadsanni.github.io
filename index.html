@@ -251,35 +251,68 @@ html, body {
 
 .sunbeams { pointer-events: none; }
 
-/* time-of-day toggle */
-.mode-toggle {
+/* time-of-day switch: a vertical pill, sun up top, moon down low */
+.mode-switch {
   position: absolute;
-  top: clamp(12px, 3vh, 26px);
-  right: clamp(12px, 3vw, 28px);
+  top: clamp(14px, 3.4vh, 30px);
+  right: clamp(14px, 3vw, 32px);
   z-index: 7;
-  width: 42px; height: 42px;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  border: 1px solid rgba(211,189,157,.35);
-  background: rgba(12,8,10,.42);
-  color: #e9c98f;
-  font-size: 1.1rem; line-height: 1;
+  width: 54px; height: 104px;
+  padding: 0; border: 0; background: none;
   cursor: pointer;
-  transition: background .25s ease, color .25s ease, transform .3s ease, border-color .3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.mode-toggle:hover, .mode-toggle:focus-visible {
-  background: var(--amber); color: #33241a; outline: none; transform: rotate(-20deg);
+.switch-track {
+  position: relative;
+  display: block;
+  width: 100%; height: 100%;
+  border-radius: 999px;
+  background: #17111c;
+  border: 2px solid rgba(240,230,210,.45);
+  box-shadow: 0 8px 22px rgba(0,0,0,.5), inset 0 2px 10px rgba(0,0,0,.55);
+  transition: background .7s ease, border-color .7s ease, box-shadow .3s ease;
+  animation: switchNudge 2.6s ease-in-out 3;
 }
-html.day .mode-toggle {
-  background: rgba(255,252,246,.34); color: #4a3320; border-color: rgba(74,51,32,.3);
+html.day .switch-track {
+  background: #4fb0ea;
+  border-color: rgba(255,255,255,.85);
+  box-shadow: 0 8px 22px rgba(30,80,120,.35), inset 0 2px 10px rgba(0,60,110,.25);
 }
-.room-wrap.panel-open .mode-toggle { opacity: 0; pointer-events: none; }
+.mode-switch:hover .switch-track { border-color: var(--amber); }
+.mode-switch:focus-visible .switch-track { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+.switch-knob {
+  position: absolute;
+  left: 50%;
+  top: 52px;
+  width: 42px; height: 42px;
+  margin-left: -21px;
+  transition: top .5s cubic-bezier(.5,1.5,.5,1);
+}
+html.day .switch-knob { top: 6px; }
+.switch-knob svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  transition: opacity .4s ease, transform .5s ease;
+}
+.ico-sun  { opacity: 0; transform: rotate(-90deg); }
+.ico-moon { opacity: 1; }
+html.day .ico-sun  { opacity: 1; transform: rotate(0deg); }
+html.day .ico-moon { opacity: 0; }
+
+@keyframes switchNudge {
+  0%, 100% { box-shadow: 0 8px 22px rgba(0,0,0,.5), 0 0 0 0   rgba(255,190,107,0); }
+  50%      { box-shadow: 0 8px 22px rgba(0,0,0,.5), 0 0 0 12px rgba(255,190,107,.16); }
+}
+.room-wrap.panel-open .mode-switch { opacity: 0; pointer-events: none; }
 
 .led-strip { animation: ledShift 9s linear infinite; }
 @keyframes ledShift { 0%,100% { opacity: .9; } 50% { opacity: .55; } }
 
 @media (prefers-reduced-motion: reduce) {
   .steam, .fairy, .star, .led-strip, .cloud, .birds, .mote { animation: none !important; }
+  .switch-track { animation: none !important; }
+  .switch-knob, .switch-knob svg { transition: none !important; }
   .steam { opacity: .3; }
   .scene, .layer { transition: none; }
   .scene.zoomed { transform: none; }
@@ -336,7 +369,11 @@ html.day .mode-toggle {
     position: static;
     transform: none;
     margin: 0 auto;
+    padding: 0 62px;
   }
+  .mode-switch { width: 40px; height: 78px; top: 10px; right: 10px; }
+  .switch-knob { width: 30px; height: 30px; margin-left: -15px; top: 40px; }
+  html.day .switch-knob { top: 6px; }
   /* enlarge the scene and crop the outer edges so the desk fills the width */
   .scene {
     width: 128%;
@@ -546,8 +583,19 @@ html.day .mode-toggle {
     <p>Computer Science · AI / Machine Learning · Design</p>
   </header>
 
-  <button class="mode-toggle" id="modeToggle" type="button" aria-label="Switch the room to daytime">
-    <span class="mode-icon" aria-hidden="true">☀</span>
+  <button class="mode-switch" id="modeToggle" type="button" role="switch" aria-checked="false"
+          aria-label="Daytime lighting">
+    <span class="switch-track">
+      <span class="switch-knob">
+        <svg class="ico-sun" viewBox="0 0 42 42" aria-hidden="true">
+          <polygon fill="#fffdf4" points="21,1 24.6,8.2 32.1,5.5 31.3,13.4 39.1,15 34.4,21 39.1,27 31.3,28.6 32.1,36.5 24.6,33.8 21,41 17.4,33.8 9.9,36.5 10.7,28.6 2.9,27 7.6,21 2.9,15 10.7,13.4 9.9,5.5 17.4,8.2"/>
+          <circle cx="21" cy="21" r="9.5" fill="#fffdf4"/>
+        </svg>
+        <svg class="ico-moon" viewBox="0 0 42 42" aria-hidden="true">
+          <path fill-rule="evenodd" fill="#f4ecdd" d="M21.0,3.0 a18.0,18.0 0 1,0 0,36.0 a18.0,18.0 0 1,0 0,-36.0 z M24.5,4.5 a13.0,13.0 0 1,0 0,26.0 a13.0,13.0 0 1,0 0,-26.0 z"/>
+        </svg>
+      </span>
+    </span>
   </button>
 
   <!-- ==================== THE DESK ==================== -->
@@ -593,11 +641,12 @@ html.day .mode-toggle {
         <stop offset=".42" stop-color="#ffe6a0" stop-opacity=".34"/>
         <stop offset="1"   stop-color="#ffe6a0" stop-opacity="0"/>
       </radialGradient>
-      <linearGradient id="beamGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"   stop-color="#fff4d2" stop-opacity=".26"/>
-        <stop offset=".55" stop-color="#fff4d2" stop-opacity=".10"/>
+      <!-- anchored on the sun in user space, so every shaft is brightest at its source -->
+      <radialGradient id="beamGrad" gradientUnits="userSpaceOnUse" cx="1170" cy="150" r="1180">
+        <stop offset="0"   stop-color="#fff4d2" stop-opacity=".34"/>
+        <stop offset=".28" stop-color="#fff4d2" stop-opacity=".17"/>
         <stop offset="1"   stop-color="#fff4d2" stop-opacity="0"/>
-      </linearGradient>
+      </radialGradient>
       <radialGradient id="floorPool" cx="50%" cy="50%" r="50%">
         <stop offset="0" stop-color="#fff0c8" stop-opacity=".26"/>
         <stop offset="1" stop-color="#fff0c8" stop-opacity="0"/>
@@ -1068,22 +1117,27 @@ html.day .mode-toggle {
         <path d="M830 800 h130 M830 850 h130 M830 900 h130" stroke="#33383f" stroke-width="6" stroke-linecap="round"/>
       </g>
 
-      <!-- ===== DAY: light shafts through the glass, with dust turning in them ===== -->
-      <g class="day-only sunbeams" aria-hidden="true">
-        <polygon points="1116,66 1264,66 690,1000 428,1000" fill="url(#beamGrad)"/>
-        <polygon points="938,66 1018,66 452,1000 300,1000" fill="url(#beamGrad)" opacity=".72"/>
-        <polygon points="1182,66 1232,66 862,1000 762,1000" fill="url(#beamGrad)" opacity=".55"/>
-        <g fill="#fff6d8">
-          <circle class="mote" cx="1044" cy="248" r="3"/>
-          <circle class="mote" cx="962"  cy="360" r="2.4"/>
-          <circle class="mote" cx="880"  cy="470" r="3.2"/>
-          <circle class="mote" cx="806"  cy="300" r="2.2"/>
-          <circle class="mote" cx="742"  cy="590" r="3"/>
-          <circle class="mote" cx="668"  cy="700" r="2.6"/>
-          <circle class="mote" cx="590"  cy="470" r="2.2"/>
-          <circle class="mote" cx="524"  cy="820" r="3.1"/>
-          <circle class="mote" cx="1108" cy="430" r="2.5"/>
-        </g>
+    </g>
+
+    <!-- ===== DAY: light thrown from the sun into the room, with dust turning in it =====
+         Kept outside the parallax layers and driven at the same rate as the far wall,
+         so the shafts stay locked to the sun they come from. -->
+    <g class="day-only sunbeams" id="sunbeams" aria-hidden="true">
+      <polygon points="1152,192 1148,190 365,1590 531,1671" fill="url(#beamGrad)" opacity=".95"/>
+      <polygon points="1144,188 1138,183 36,1349 233,1508" fill="url(#beamGrad)"/>
+      <polygon points="1136,181 1133,177 -165,1120 -56,1254" fill="url(#beamGrad)" opacity=".8"/>
+      <polygon points="1131,174 1128,168 -349,795 -244,1000" fill="url(#beamGrad)" opacity=".62"/>
+      <g fill="#fff6d8">
+        <circle class="mote" cx="1021" cy="456" r="3"/>
+        <circle class="mote" cx="907"  cy="689" r="2.4"/>
+        <circle class="mote" cx="981"  cy="383" r="3.2"/>
+        <circle class="mote" cx="843"  cy="554" r="2.6"/>
+        <circle class="mote" cx="692"  cy="741" r="3"/>
+        <circle class="mote" cx="859"  cy="402" r="2.4"/>
+        <circle class="mote" cx="657"  cy="565" r="3.1"/>
+        <circle class="mote" cx="471"  cy="716" r="2.6"/>
+        <circle class="mote" cx="742"  cy="368" r="2.8"/>
+        <circle class="mote" cx="466"  cy="509" r="3.2"/>
       </g>
     </g>
   </svg>
@@ -1269,8 +1323,7 @@ html.day .mode-toggle {
     const day = manual === null ? isDaylight() : manual;
     document.documentElement.classList.toggle("day", day);
     if (themeMeta) themeMeta.setAttribute("content", day ? "#5e4852" : "#2a2028");
-    toggle.querySelector(".mode-icon").textContent = day ? "☾" : "☀";
-    toggle.setAttribute("aria-label", day ? "Switch the room to night" : "Switch the room to daytime");
+    toggle.setAttribute("aria-checked", String(day));
     scene.setAttribute("aria-label",
       (day ? "A cozy desk by day facing a city window, with sunlight across the room. "
            : "A cozy desk at night facing a lit city window. ")
@@ -1345,18 +1398,19 @@ html.day .mode-toggle {
     const back = document.getElementById("layerBack");
     const mid = document.getElementById("layerMid");
     const front = document.getElementById("layerFront");
+    const beams = document.getElementById("sunbeams");
 
     room.addEventListener("mousemove", e => {
       if (scene.classList.contains("zoomed")) return;
       const r = room.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      back.style.transform  = `translate(${x * -7}px,  ${y * -4}px)`;
+      back.style.transform = beams.style.transform = `translate(${x * -7}px,  ${y * -4}px)`;
       mid.style.transform   = `translate(${x * -14}px, ${y * -8}px)`;
       front.style.transform = `translate(${x * -22}px, ${y * -12}px)`;
     });
     room.addEventListener("mouseleave", () => {
-      back.style.transform = mid.style.transform = front.style.transform = "";
+      back.style.transform = mid.style.transform = front.style.transform = beams.style.transform = "";
     });
   }
 })();
