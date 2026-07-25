@@ -38,6 +38,98 @@
   --font-display: "Marcellus", "Times New Roman", serif;
   --font-body:    "Manrope", -apple-system, "Segoe UI", sans-serif;
   --font-hand:    "Caveat", cursive;
+
+  /* ---- scene palette: NIGHT (default) ---- */
+  --wall-a: #342832;  --wall-b: #413039;  --room-glow: #453039;
+  --sky-a: #1a2342;   --sky-b: #27335c;   --sky-c: #3c3a63;
+  --frame: #211820;   --sill: #332630;    --skyline: #101527;
+  --haze: #8a5a7a;    --haze-op: .4;
+  --curtain: #5c4149; --curtain-fold: #4a333b;
+  --floor: #3d2b1f;   --floor-line: #2e2016; --rug: #6e3f3a;
+  --desk-a: #a1794f;  --desk-b: #7d5a38;  --desk-edge: #5f4227;
+  --desk-lip: #c39a6a; --desk-lip-op: .55;
+  --ped: #6b4a2e;     --ped-drawer: #5a3d25; --shelf: #453137;
+  --underdesk-op: .6;
+  --screen-a: #33487a; --screen-b: #131a30;
+  --hill-a: #1b2340;  --hill-b: #121830;
+  --screen-fg: #f0e6d2; --screen-sub: #9aa7c9;
+  --mon-glow: #c06b9b; --mon-glow-op: .22;
+  --lamp-glow-op: .32; --lamp-cone-op: .12; --lamp-bulb-op: 1;
+  --led-op: 1;        --fairy-op: 1;
+  --night-vis: 1;     --day-vis: 0;
+}
+
+/* ---- scene palette: DAY ---- */
+html.day {
+  --wall-deep: #5e4852;
+  --wall-a: #6b5460;  --wall-b: #856a72;  --room-glow: #7d626c;
+  --sky-a: #4a9ad6;   --sky-b: #8ac8ea;   --sky-c: #d6edf9;
+  --frame: #4a3640;   --sill: #634c58;    --skyline: #7f95b0;
+  --haze: #dceaf4;    --haze-op: .55;
+  --curtain: #9a747e; --curtain-fold: #82606c;
+  --floor: #6b4a33;   --floor-line: #543823; --rug: #9c5a52;
+  --desk-a: #c9a173;  --desk-b: #a67d50;  --desk-edge: #825c37;
+  --desk-lip: #f0d3a8; --desk-lip-op: .85;
+  --ped: #8a6440;     --ped-drawer: #74522f; --shelf: #6a4e56;
+  --underdesk-op: .4;
+  --screen-a: #7cc0ea; --screen-b: #dcf0fb;
+  --hill-a: #5a9c66;  --hill-b: #47814f;
+  --screen-fg: #1d3a52; --screen-sub: #4a6b86;
+  --mon-glow: #9ec8e4; --mon-glow-op: .14;
+  --lamp-glow-op: .05; --lamp-cone-op: 0; --lamp-bulb-op: .22;
+  --led-op: .3;       --fairy-op: .28;
+  --night-vis: 0;     --day-vis: 1;
+}
+
+/* ---- palette-driven scene fills ---- */
+.f-wall-a { stop-color: var(--wall-a); }
+.f-wall-b { stop-color: var(--wall-b); }
+.f-sky-a { stop-color: var(--sky-a); }
+.f-sky-b { stop-color: var(--sky-b); }
+.f-sky-c { stop-color: var(--sky-c); }
+.f-haze-0 { stop-color: var(--haze); }
+.f-haze-1 { stop-color: var(--haze); stop-opacity: var(--haze-op); }
+.f-desk-a { stop-color: var(--desk-a); }
+.f-desk-b { stop-color: var(--desk-b); }
+.f-screen-a { stop-color: var(--screen-a); }
+.f-screen-b { stop-color: var(--screen-b); }
+.f-mglow-0 { stop-color: var(--mon-glow); stop-opacity: var(--mon-glow-op); }
+.f-mglow-1 { stop-color: var(--mon-glow); }
+.f-frame { fill: var(--frame); }
+.f-sill { fill: var(--sill); }
+.f-skyline { fill: var(--skyline); }
+.f-curtain { fill: var(--curtain); }
+.f-curtain-fold { stroke: var(--curtain-fold); }
+.f-floor { fill: var(--floor); }
+.f-floor-line { stroke: var(--floor-line); }
+.f-rug { fill: var(--rug); }
+.f-desk-edge { fill: var(--desk-edge); }
+.f-desk-lip { fill: var(--desk-lip); opacity: var(--desk-lip-op); }
+.f-ped { fill: var(--ped); }
+.f-ped-drawer { fill: var(--ped-drawer); }
+.f-shelf { fill: var(--shelf); }
+.f-underdesk { opacity: var(--underdesk-op); }
+.f-hill-a { fill: var(--hill-a); }
+.f-hill-b { fill: var(--hill-b); }
+.f-screen-fg { fill: var(--screen-fg); }
+.f-screen-sub { fill: var(--screen-sub); }
+.f-lamp-glow { opacity: var(--lamp-glow-op); }
+.f-lamp-cone { opacity: var(--lamp-cone-op); }
+.f-lamp-bulb { opacity: var(--lamp-bulb-op); }
+.f-led-group { opacity: var(--led-op); }
+.f-fairy-group { opacity: var(--fairy-op); }
+.night-only { opacity: var(--night-vis); pointer-events: none; }
+.day-only   { opacity: var(--day-vis);   pointer-events: none; }
+
+/* ---- crossfade between the two times of day ---- */
+html, body, .room-wrap,
+.f-wall-a,.f-wall-b,.f-sky-a,.f-sky-b,.f-sky-c,.f-haze-0,.f-haze-1,.f-desk-a,.f-desk-b,
+.f-screen-a,.f-screen-b,.f-mglow-0,.f-mglow-1,.f-frame,.f-sill,.f-skyline,.f-curtain,
+.f-curtain-fold,.f-floor,.f-floor-line,.f-rug,.f-desk-edge,.f-desk-lip,.f-ped,.f-ped-drawer,
+.f-shelf,.f-underdesk,.f-hill-a,.f-hill-b,.f-screen-fg,.f-screen-sub,.f-lamp-glow,.f-lamp-cone,
+.f-lamp-bulb,.f-led-group,.f-fairy-group,.night-only,.day-only {
+  transition: fill .9s ease, stroke .9s ease, stop-color .9s ease,
+              stop-opacity .9s ease, opacity .9s ease, background .9s ease;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -61,7 +153,7 @@ html, body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: radial-gradient(115% 90% at 60% 20%, #453039 0%, var(--wall-deep) 72%);
+  background: radial-gradient(115% 90% at 60% 20%, var(--room-glow) 0%, var(--wall-deep) 72%);
 }
 
 .scene {
@@ -140,11 +232,54 @@ html, body {
 .star:nth-child(even) { animation-delay: 2.1s; }
 @keyframes twinkle { 0%,100% { opacity: .95; } 50% { opacity: .3; } }
 
+/* daytime motion: drifting clouds, birds, dust in the light shafts */
+.cloud { animation: cloudDrift 74s ease-in-out infinite alternate; }
+.cloud.c2 { animation-duration: 96s; animation-delay: -20s; }
+.cloud.c3 { animation-duration: 62s; animation-delay: -40s; }
+@keyframes cloudDrift { from { transform: translateX(-26px); } to { transform: translateX(150px); } }
+
+.birds { animation: birdFly 54s ease-in-out infinite alternate; }
+@keyframes birdFly { from { transform: translate(0,0); } to { transform: translate(190px,-34px); } }
+
+.mote { animation: moteFloat 9s ease-in-out infinite; }
+.mote:nth-child(2n) { animation-duration: 12s; animation-delay: -3s; }
+.mote:nth-child(3n) { animation-duration: 15s; animation-delay: -7s; }
+@keyframes moteFloat {
+  0%,100% { transform: translateY(6px);   opacity: .35; }
+  50%     { transform: translateY(-22px); opacity: .85; }
+}
+
+.sunbeams { pointer-events: none; }
+
+/* time-of-day toggle */
+.mode-toggle {
+  position: absolute;
+  top: clamp(12px, 3vh, 26px);
+  right: clamp(12px, 3vw, 28px);
+  z-index: 7;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(211,189,157,.35);
+  background: rgba(12,8,10,.42);
+  color: #e9c98f;
+  font-size: 1.1rem; line-height: 1;
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease, transform .3s ease, border-color .3s ease;
+}
+.mode-toggle:hover, .mode-toggle:focus-visible {
+  background: var(--amber); color: #33241a; outline: none; transform: rotate(-20deg);
+}
+html.day .mode-toggle {
+  background: rgba(255,252,246,.34); color: #4a3320; border-color: rgba(74,51,32,.3);
+}
+.room-wrap.panel-open .mode-toggle { opacity: 0; pointer-events: none; }
+
 .led-strip { animation: ledShift 9s linear infinite; }
 @keyframes ledShift { 0%,100% { opacity: .9; } 50% { opacity: .55; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .steam, .fairy, .star, .led-strip { animation: none !important; }
+  .steam, .fairy, .star, .led-strip, .cloud, .birds, .mote { animation: none !important; }
   .steam { opacity: .3; }
   .scene, .layer { transition: none; }
   .scene.zoomed { transform: none; }
@@ -411,26 +546,30 @@ html, body {
     <p>Computer Science · AI / Machine Learning · Design</p>
   </header>
 
+  <button class="mode-toggle" id="modeToggle" type="button" aria-label="Switch the room to daytime">
+    <span class="mode-icon" aria-hidden="true">☀</span>
+  </button>
+
   <!-- ==================== THE DESK ==================== -->
   <svg class="scene" id="scene" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img"
        aria-label="A cozy desk at night facing a city window. Items on the desk open the sections of this portfolio.">
     <defs>
       <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#342832"/>
-        <stop offset="1" stop-color="#413039"/>
+        <stop class="f-wall-a" offset="0" stop-color="#342832"/>
+        <stop class="f-wall-b" offset="1" stop-color="#413039"/>
       </linearGradient>
       <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#1a2342"/>
-        <stop offset=".7" stop-color="#27335c"/>
-        <stop offset="1" stop-color="#3c3a63"/>
+        <stop class="f-sky-a" offset="0" stop-color="#1a2342"/>
+        <stop class="f-sky-b" offset=".7" stop-color="#27335c"/>
+        <stop class="f-sky-c" offset="1" stop-color="#3c3a63"/>
       </linearGradient>
       <linearGradient id="cityGlow" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#8a5a7a" stop-opacity="0"/>
-        <stop offset="1" stop-color="#8a5a7a" stop-opacity=".4"/>
+        <stop class="f-haze-0" offset="0" stop-color="#8a5a7a" stop-opacity="0"/>
+        <stop class="f-haze-1" offset="1" stop-color="#8a5a7a" stop-opacity=".4"/>
       </linearGradient>
       <linearGradient id="deskTop" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#a1794f"/>
-        <stop offset="1" stop-color="#7d5a38"/>
+        <stop class="f-desk-a" offset="0" stop-color="#a1794f"/>
+        <stop class="f-desk-b" offset="1" stop-color="#7d5a38"/>
       </linearGradient>
       <linearGradient id="ledGrad" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0"  stop-color="#ff8f6b"/>
@@ -438,17 +577,32 @@ html, body {
         <stop offset="1"  stop-color="#8f6be0"/>
       </linearGradient>
       <radialGradient id="monGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stop-color="#c06b9b" stop-opacity=".22"/>
-        <stop offset="1" stop-color="#c06b9b" stop-opacity="0"/>
+        <stop class="f-mglow-0" offset="0" stop-color="#c06b9b" stop-opacity=".22"/>
+        <stop class="f-mglow-1" offset="1" stop-color="#c06b9b" stop-opacity="0"/>
       </radialGradient>
       <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
         <stop offset="0" stop-color="#ffbe6b" stop-opacity=".32"/>
         <stop offset="1" stop-color="#ffbe6b" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="screenSky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#33487a"/>
-        <stop offset="1" stop-color="#131a30"/>
+        <stop class="f-screen-a" offset="0" stop-color="#33487a"/>
+        <stop class="f-screen-b" offset="1" stop-color="#131a30"/>
       </linearGradient>
+      <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0"   stop-color="#fff6cf" stop-opacity=".9"/>
+        <stop offset=".42" stop-color="#ffe6a0" stop-opacity=".34"/>
+        <stop offset="1"   stop-color="#ffe6a0" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="beamGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0"   stop-color="#fff4d2" stop-opacity=".26"/>
+        <stop offset=".55" stop-color="#fff4d2" stop-opacity=".10"/>
+        <stop offset="1"   stop-color="#fff4d2" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="floorPool" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#fff0c8" stop-opacity=".26"/>
+        <stop offset="1" stop-color="#fff0c8" stop-opacity="0"/>
+      </radialGradient>
+      <clipPath id="winClip"><rect x="490" y="66" width="780" height="480" rx="4"/></clipPath>
       <radialGradient id="ballGrad" cx="38%" cy="30%" r="75%">
         <stop offset="0" stop-color="#fdf9ee"/>
         <stop offset=".7" stop-color="#efe6d2"/>
@@ -466,45 +620,76 @@ html, body {
 
       <!-- window -->
       <g>
-        <rect x="470" y="46" width="820" height="520" rx="10" fill="#211820"/>
+        <rect class="f-frame" x="470" y="46" width="820" height="520" rx="10" fill="#211820"/>
         <rect x="490" y="66" width="780" height="480" rx="4" fill="url(#skyGrad)"/>
-        <!-- stars -->
-        <g fill="#f6ecd2">
-          <circle class="star" cx="560" cy="120" r="2"/>
-          <circle class="star" cx="660" cy="90"  r="1.5"/>
-          <circle class="star" cx="760" cy="140" r="2.2"/>
-          <circle class="star" cx="880" cy="100" r="1.6"/>
-          <circle class="star" cx="990" cy="150" r="1.8"/>
-          <circle class="star" cx="1080" cy="95" r="1.5"/>
-          <circle class="star" cx="1210" cy="130" r="2"/>
-          <circle class="star" cx="620" cy="210" r="1.4"/>
-          <circle class="star" cx="1150" cy="220" r="1.5"/>
+        <!-- everything seen through the glass, clipped to the pane -->
+        <g clip-path="url(#winClip)">
+
+          <!-- NIGHT: stars and moon -->
+          <g class="night-only">
+            <g fill="#f6ecd2">
+              <circle class="star" cx="560" cy="120" r="2"/>
+              <circle class="star" cx="660" cy="90"  r="1.5"/>
+              <circle class="star" cx="760" cy="140" r="2.2"/>
+              <circle class="star" cx="880" cy="100" r="1.6"/>
+              <circle class="star" cx="990" cy="150" r="1.8"/>
+              <circle class="star" cx="1080" cy="95" r="1.5"/>
+              <circle class="star" cx="1210" cy="130" r="2"/>
+              <circle class="star" cx="620" cy="210" r="1.4"/>
+              <circle class="star" cx="1150" cy="220" r="1.5"/>
+            </g>
+            <circle cx="1170" cy="150" r="34" fill="#f2e6c4"/>
+            <circle cx="1157" cy="142" r="31" fill="url(#skyGrad)"/>
+          </g>
+
+          <!-- DAY: sun, clouds, birds -->
+          <g class="day-only">
+            <circle cx="1170" cy="150" r="96" fill="url(#sunGlow)"/>
+            <circle cx="1170" cy="150" r="40" fill="#fff2bd"/>
+            <circle cx="1170" cy="150" r="31" fill="#fffdf2"/>
+            <g fill="#ffffff">
+              <g transform="translate(560 150)"><g class="cloud" opacity=".92">
+                <path d="M0 26 q-12 0 -12 -12 q0 -12 13 -12 q3 -16 20 -16 q13 0 19 10 q7 -6 16 -6 q17 0 20 16 q13 1 13 13 q0 12 -13 12 z"/>
+              </g></g>
+              <g transform="translate(860 108)"><g class="cloud c2" opacity=".72">
+                <path d="M0 18 q-9 0 -9 -9 q0 -9 10 -9 q2 -12 15 -12 q10 0 14 8 q5 -4 12 -4 q13 0 15 12 q10 1 10 10 q0 9 -10 9 z"/>
+              </g></g>
+              <g transform="translate(690 258)"><g class="cloud c3" opacity=".6">
+                <path d="M0 14 q-7 0 -7 -7 q0 -7 8 -7 q2 -9 12 -9 q8 0 11 6 q4 -3 9 -3 q10 0 12 9 q8 1 8 8 q0 7 -8 7 z"/>
+              </g></g>
+            </g>
+            <g class="birds" fill="none" stroke="#5a6b7d" stroke-width="2.2" stroke-linecap="round" opacity=".65">
+              <path d="M700 196 q7 -7 14 0 q7 -7 14 0"/>
+              <path d="M744 176 q5 -5 10 0 q5 -5 10 0"/>
+              <path d="M672 168 q4 -4 8 0 q4 -4 8 0"/>
+            </g>
+          </g>
+
+          <!-- horizon haze -->
+          <rect x="490" y="380" width="780" height="166" fill="url(#cityGlow)"/>
+          <!-- skyline -->
+          <path class="f-skyline" d="M490 546 v-120 h44 v-40 h30 v40 h26 v-90 h40 v30 h30 v-60 h36 v90 h30 v-40 h44 v70 h26 v-130 h40 v40 h34 v-20 h40 v90 h30 v-50 h44 v30 h30 v-80 h40 v60 h34 v-30 h40 v70 h30 v-40 h44 v50 h28 v-70 h40 v110 z"
+                fill="#101527"/>
+          <!-- NIGHT: lit windows and aircraft warning lights -->
+          <g class="night-only">
+            <g fill="#ffcf7d">
+              <rect x="548" y="420" width="7" height="7"/><rect x="566" y="446" width="7" height="7"/>
+              <rect x="646" y="360" width="7" height="7"/><rect x="662" y="392" width="7" height="7"/>
+              <rect x="742" y="410" width="7" height="7"/><rect x="826" y="330" width="7" height="7"/>
+              <rect x="842" y="368" width="7" height="7"/><rect x="920" y="404" width="7" height="7"/>
+              <rect x="1004" y="428" width="7" height="7"/><rect x="1058" y="380" width="7" height="7"/>
+              <rect x="1074" y="412" width="7" height="7"/><rect x="1168" y="430" width="7" height="7"/>
+              <rect x="1236" y="392" width="7" height="7"/>
+            </g>
+            <circle cx="850" cy="322" r="3" fill="#e05a5a"/>
+            <circle cx="1100" cy="356" r="3" fill="#e05a5a"/>
+          </g>
         </g>
-        <!-- moon -->
-        <circle cx="1170" cy="150" r="34" fill="#f2e6c4"/>
-        <circle cx="1157" cy="142" r="31" fill="url(#skyGrad)"/>
-        <!-- horizon glow -->
-        <rect x="490" y="380" width="780" height="166" fill="url(#cityGlow)"/>
-        <!-- skyline -->
-        <path d="M490 546 v-120 h44 v-40 h30 v40 h26 v-90 h40 v30 h30 v-60 h36 v90 h30 v-40 h44 v70 h26 v-130 h40 v40 h34 v-20 h40 v90 h30 v-50 h44 v30 h30 v-80 h40 v60 h34 v-30 h40 v70 h30 v-40 h44 v50 h28 v-70 h40 v110 z"
-              fill="#101527"/>
-        <!-- lit windows -->
-        <g fill="#ffcf7d">
-          <rect x="548" y="420" width="7" height="7"/><rect x="566" y="446" width="7" height="7"/>
-          <rect x="646" y="360" width="7" height="7"/><rect x="662" y="392" width="7" height="7"/>
-          <rect x="742" y="410" width="7" height="7"/><rect x="826" y="330" width="7" height="7"/>
-          <rect x="842" y="368" width="7" height="7"/><rect x="920" y="404" width="7" height="7"/>
-          <rect x="1004" y="428" width="7" height="7"/><rect x="1058" y="380" width="7" height="7"/>
-          <rect x="1074" y="412" width="7" height="7"/><rect x="1168" y="430" width="7" height="7"/>
-          <rect x="1236" y="392" width="7" height="7"/>
-        </g>
-        <circle cx="850" cy="322" r="3" fill="#e05a5a"/>
-        <circle cx="1100" cy="356" r="3" fill="#e05a5a"/>
         <!-- mullions -->
-        <rect x="872" y="66" width="12" height="480" fill="#211820"/>
-        <rect x="490" y="296" width="780" height="12" fill="#211820"/>
+        <rect class="f-frame" x="872" y="66" width="12" height="480" fill="#211820"/>
+        <rect class="f-frame" x="490" y="296" width="780" height="12" fill="#211820"/>
         <!-- sill -->
-        <rect x="452" y="560" width="856" height="16" rx="5" fill="#332630"/>
+        <rect class="f-sill" x="452" y="560" width="856" height="16" rx="5" fill="#332630"/>
         <!-- sill plants -->
         <g>
           <path d="M540 560 q-6 -30 10 -44 q4 24 -2 44 z" fill="#4c7350"/>
@@ -521,11 +706,11 @@ html, body {
 
       <!-- curtains -->
       <rect x="410" y="36" width="920" height="10" rx="5" fill="#1c1418"/>
-      <g fill="#5c4149">
+      <g class="f-curtain" fill="#5c4149">
         <path d="M424 46 q30 150 12 300 q-14 160 8 294 h64 q20 -140 4 -298 q-14 -150 4 -296 z"/>
         <path d="M1248 46 q-30 150 -12 300 q14 160 -8 294 h64 q20 -134 0 -294 q-18 -152 0 -300 z"/>
       </g>
-      <g stroke="#4a333b" stroke-width="4" fill="none" opacity=".8">
+      <g class="f-curtain-fold" stroke="#4a333b" stroke-width="4" fill="none" opacity=".8">
         <path d="M452 60 q16 280 2 560"/>
         <path d="M478 60 q10 280 0 560"/>
         <path d="M1276 60 q-16 280 -2 560"/>
@@ -534,7 +719,7 @@ html, body {
 
       <!-- fairy lights -->
       <path d="M40 30 Q 400 92 800 52 T 1560 66" fill="none" stroke="#1c1418" stroke-width="3"/>
-      <g fill="#ffd98a">
+      <g class="f-fairy-group" fill="#ffd98a">
         <circle class="fairy" cx="140" cy="49"  r="6"/>
         <circle class="fairy" cx="320" cy="70"  r="6"/>
         <circle class="fairy" cx="500" cy="72"  r="6"/>
@@ -562,7 +747,7 @@ html, body {
 
       <!-- small shelf, right wall -->
       <g>
-        <rect x="1380" y="240" width="170" height="10" rx="4" fill="#453137"/>
+        <rect class="f-shelf" x="1380" y="240" width="170" height="10" rx="4" fill="#453137"/>
         <rect x="1396" y="196" width="13" height="44" rx="2" fill="#3e7c74"/>
         <rect x="1411" y="190" width="13" height="50" rx="2" fill="#8c3b3b"/>
         <rect x="1426" y="200" width="12" height="40" rx="2" fill="#d9a036"/>
@@ -574,15 +759,17 @@ html, body {
 
     <!-- ======== MID LAYER: floor ======== -->
     <g class="layer" id="layerMid">
-      <rect x="0" y="700" width="1600" height="300" fill="#3d2b1f"/>
-      <g stroke="#2e2016" stroke-width="2" opacity=".55">
+      <rect class="f-floor" x="0" y="700" width="1600" height="300" fill="#3d2b1f"/>
+      <g class="f-floor-line" stroke="#2e2016" stroke-width="2" opacity=".55">
         <line x1="0" y1="790" x2="1600" y2="790"/>
         <line x1="0" y1="890" x2="1600" y2="890"/>
         <line x1="240" y1="700" x2="200" y2="1000"/>
         <line x1="1380" y1="700" x2="1420" y2="1000"/>
       </g>
-      <ellipse cx="870" cy="972" rx="360" ry="30" fill="#6e3f3a"/>
+      <ellipse class="f-rug" cx="870" cy="972" rx="360" ry="30" fill="#6e3f3a"/>
       <ellipse cx="870" cy="972" rx="300" ry="22" fill="none" stroke="#e0b98a" stroke-width="3" opacity=".4" stroke-dasharray="14 10"/>
+      <!-- DAY: sunlight pooling on the boards where the shafts land -->
+      <ellipse class="day-only" cx="236" cy="884" rx="300" ry="86" fill="url(#floorPool)" transform="rotate(-14 236 884)"/>
     </g>
 
     <!-- ======== FRONT LAYER: desk + everything on it ======== -->
@@ -590,21 +777,23 @@ html, body {
 
       <!-- LED wash + lamp wash behind desk items -->
       <ellipse cx="990" cy="440" rx="300" ry="200" fill="url(#monGlow)"/>
-      <ellipse cx="720" cy="520" rx="330" ry="240" fill="url(#lampGlow)"/>
+      <ellipse class="f-lamp-glow" cx="720" cy="520" rx="330" ry="240" fill="url(#lampGlow)"/>
 
       <!-- LED strip along the wall at desk height -->
-      <rect x="330" y="622" width="1080" height="10" rx="5" fill="url(#ledGrad)" filter="url(#soft8)" class="led-strip"/>
-      <rect x="330" y="626" width="1080" height="4" rx="2" fill="url(#ledGrad)"/>
+      <g class="f-led-group">
+        <rect x="330" y="622" width="1080" height="10" rx="5" fill="url(#ledGrad)" filter="url(#soft8)" class="led-strip"/>
+        <rect x="330" y="626" width="1080" height="4" rx="2" fill="url(#ledGrad)"/>
+      </g>
 
       <!-- desk slab -->
       <rect x="318" y="640" width="1094" height="26" rx="6" fill="url(#deskTop)"/>
-      <rect x="318" y="640" width="1094" height="4"  rx="2" fill="#c39a6a" opacity=".55"/>
-      <rect x="322" y="666" width="1086" height="18" fill="#5f4227"/>
+      <rect class="f-desk-lip" x="318" y="640" width="1094" height="4"  rx="2" fill="#c39a6a" opacity=".55"/>
+      <rect class="f-desk-edge" x="322" y="666" width="1086" height="18" fill="#5f4227"/>
 
       <!-- drawer pedestals -->
       <g>
-        <rect x="360" y="684" width="240" height="272" rx="6" fill="#6b4a2e"/>
-        <g fill="#5a3d25">
+        <rect class="f-ped" x="360" y="684" width="240" height="272" rx="6" fill="#6b4a2e"/>
+        <g class="f-ped-drawer" fill="#5a3d25">
           <rect x="376" y="702" width="208" height="72" rx="4"/>
           <rect x="376" y="786" width="208" height="72" rx="4"/>
           <rect x="376" y="870" width="208" height="72" rx="4"/>
@@ -616,8 +805,8 @@ html, body {
         </g>
       </g>
       <g>
-        <rect x="1170" y="684" width="240" height="272" rx="6" fill="#6b4a2e"/>
-        <g fill="#5a3d25">
+        <rect class="f-ped" x="1170" y="684" width="240" height="272" rx="6" fill="#6b4a2e"/>
+        <g class="f-ped-drawer" fill="#5a3d25">
           <rect x="1186" y="702" width="208" height="112" rx="4"/>
           <rect x="1186" y="826" width="208" height="116" rx="4"/>
         </g>
@@ -627,7 +816,7 @@ html, body {
         </g>
       </g>
       <!-- shadow under desk between pedestals -->
-      <rect x="600" y="684" width="570" height="272" fill="#241811" opacity=".6"/>
+      <rect class="f-underdesk" x="600" y="684" width="570" height="272" fill="#241811" opacity=".6"/>
 
       <!-- ===== headphone stand (far left) ===== -->
       <g>
@@ -652,14 +841,16 @@ html, body {
         <circle cx="560" cy="480" r="9" fill="#191316"/>
         <line x1="560" y1="480" x2="660" y2="420" stroke="#2b2125" stroke-width="10" stroke-linecap="round"/>
         <!-- light cone (mouth corners to the desk) -->
-        <polygon points="614,450 669,474 891,640 673,640" fill="#ffbe6b" opacity=".12"/>
+        <polygon class="f-lamp-cone" points="614,450 669,474 891,640 673,640" fill="#ffbe6b" opacity=".12"/>
         <!-- shade, hinged at the arm tip, aimed 24° down-right -->
         <g transform="translate(660 420) rotate(24)">
           <circle cx="0" cy="2" r="8" fill="#191316"/>
           <path d="M-18 0 L18 0 L32 48 L-32 48 Z" fill="#e8b45c"/>
           <path d="M-18 0 L18 0 L21 12 L-21 12 Z" fill="#f2c97e"/>
-          <ellipse cx="0" cy="48" rx="32" ry="9" fill="#ffd98a"/>
-          <ellipse cx="0" cy="49" rx="16" ry="5" fill="#fff3d0"/>
+          <g class="f-lamp-bulb">
+            <ellipse cx="0" cy="48" rx="32" ry="9" fill="#ffd98a"/>
+            <ellipse cx="0" cy="49" rx="16" ry="5" fill="#fff3d0"/>
+          </g>
         </g>
       </g>
 
@@ -701,15 +892,25 @@ html, body {
         <rect x="977" y="548" width="26" height="66" fill="#22181d"/>
         <rect x="820" y="298" width="340" height="254" rx="14" fill="#22181d"/>
         <rect x="834" y="312" width="312" height="226" rx="6" fill="url(#screenSky)"/>
-        <!-- wallpaper: hills + moon -->
-        <circle cx="1084" cy="360" r="22" fill="#f2e6c4" opacity=".9"/>
-        <path d="M834 496 q70 -44 150 -12 q90 36 162 -8 v62 h-312 z" fill="#1b2340"/>
-        <path d="M834 516 q90 -34 170 0 q80 32 142 6 v16 h-312 z" fill="#121830"/>
-        <circle class="star" cx="880" cy="350" r="2" fill="#f6ecd2"/>
-        <circle class="star" cx="940" cy="336" r="1.6" fill="#f6ecd2"/>
-        <circle class="star" cx="1010" cy="356" r="1.8" fill="#f6ecd2"/>
-        <text id="clockText" x="990" y="416" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="800" font-size="46" fill="#f0e6d2" letter-spacing="2">23:57</text>
-        <text x="990" y="446" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="500" font-size="13" letter-spacing="3" fill="#9aa7c9">PICK SOMETHING OFF THE DESK</text>
+        <!-- wallpaper: the desktop picture follows the time of day too -->
+        <g class="night-only">
+          <circle cx="1084" cy="360" r="22" fill="#f2e6c4" opacity=".9"/>
+          <circle class="star" cx="880" cy="350" r="2" fill="#f6ecd2"/>
+          <circle class="star" cx="940" cy="336" r="1.6" fill="#f6ecd2"/>
+          <circle class="star" cx="1010" cy="356" r="1.8" fill="#f6ecd2"/>
+        </g>
+        <g class="day-only">
+          <circle cx="1084" cy="356" r="30" fill="#fff3c0" opacity=".85"/>
+          <circle cx="1084" cy="356" r="19" fill="#fffdf0"/>
+          <g fill="#ffffff" opacity=".9">
+            <path d="M876 356 q-7 0 -7 -7 q0 -7 8 -7 q2 -10 13 -10 q8 0 12 6 q4 -3 9 -3 q11 0 13 10 q8 1 8 8 q0 7 -8 7 z"/>
+            <path d="M952 336 q-5 0 -5 -5 q0 -5 6 -5 q1 -7 9 -7 q6 0 8 4 q3 -2 6 -2 q8 0 9 7 q6 1 6 6 q0 5 -6 5 z" opacity=".7"/>
+          </g>
+        </g>
+        <path class="f-hill-a" d="M834 496 q70 -44 150 -12 q90 36 162 -8 v62 h-312 z" fill="#1b2340"/>
+        <path class="f-hill-b" d="M834 516 q90 -34 170 0 q80 32 142 6 v16 h-312 z" fill="#121830"/>
+        <text class="f-screen-fg" id="clockText" x="990" y="416" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="800" font-size="46" fill="#f0e6d2" letter-spacing="2">23:57</text>
+        <text class="f-screen-sub" x="990" y="446" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="500" font-size="13" letter-spacing="3" fill="#9aa7c9">PICK SOMETHING OFF THE DESK</text>
         <polygon points="834,312 940,312 866,538 834,538" fill="#ffffff" opacity=".035"/>
         <!-- sticky note on bezel -->
         <g transform="translate(1104 500) rotate(6)">
@@ -865,6 +1066,24 @@ html, body {
         <path d="M770 1000 v-236 q0 -46 46 -46 h158 q46 0 46 46 v236 z" fill="#33383f"/>
         <path d="M796 1000 v-224 q0 -28 28 -28 h142 q28 0 28 28 v224 z" fill="#2b3037"/>
         <path d="M830 800 h130 M830 850 h130 M830 900 h130" stroke="#33383f" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- ===== DAY: light shafts through the glass, with dust turning in them ===== -->
+      <g class="day-only sunbeams" aria-hidden="true">
+        <polygon points="1116,66 1264,66 690,1000 428,1000" fill="url(#beamGrad)"/>
+        <polygon points="938,66 1018,66 452,1000 300,1000" fill="url(#beamGrad)" opacity=".72"/>
+        <polygon points="1182,66 1232,66 862,1000 762,1000" fill="url(#beamGrad)" opacity=".55"/>
+        <g fill="#fff6d8">
+          <circle class="mote" cx="1044" cy="248" r="3"/>
+          <circle class="mote" cx="962"  cy="360" r="2.4"/>
+          <circle class="mote" cx="880"  cy="470" r="3.2"/>
+          <circle class="mote" cx="806"  cy="300" r="2.2"/>
+          <circle class="mote" cx="742"  cy="590" r="3"/>
+          <circle class="mote" cx="668"  cy="700" r="2.6"/>
+          <circle class="mote" cx="590"  cy="470" r="2.2"/>
+          <circle class="mote" cx="524"  cy="820" r="3.1"/>
+          <circle class="mote" cx="1108" cy="430" r="2.5"/>
+        </g>
       </g>
     </g>
   </svg>
@@ -1037,10 +1256,38 @@ html, body {
 
   /* ---------- live clock on the monitor ---------- */
   const clock = document.getElementById("clockText");
+  const toggle = document.getElementById("modeToggle");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  let manual = null;   // null means follow the visitor's real local time
+
+  function isDaylight() {
+    const h = new Date().getHours();
+    return h >= 7 && h < 19;
+  }
+
+  function applyMode() {
+    const day = manual === null ? isDaylight() : manual;
+    document.documentElement.classList.toggle("day", day);
+    if (themeMeta) themeMeta.setAttribute("content", day ? "#5e4852" : "#2a2028");
+    toggle.querySelector(".mode-icon").textContent = day ? "☾" : "☀";
+    toggle.setAttribute("aria-label", day ? "Switch the room to night" : "Switch the room to daytime");
+    scene.setAttribute("aria-label",
+      (day ? "A cozy desk by day facing a city window, with sunlight across the room. "
+           : "A cozy desk at night facing a lit city window. ")
+      + "Items on the desk open the sections of this portfolio.");
+  }
+
   function tick() {
     const d = new Date();
     clock.textContent = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    applyMode();
   }
+
+  toggle.addEventListener("click", () => {
+    manual = !document.documentElement.classList.contains("day");
+    applyMode();
+  });
+
   tick();
   setInterval(tick, 15000);
 
