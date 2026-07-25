@@ -57,6 +57,10 @@
   --lamp-glow-op: .32; --lamp-cone-op: .12; --lamp-bulb-op: 1;
   --led-op: 1;        --fairy-op: 1;
   --night-vis: 1;     --day-vis: 0;
+  --hero-fg: #f4ead6;  --hero-sub: #c8ab84;
+  --hero-shadow: 0 2px 26px rgba(0,0,0,.6);
+  --hero-sub-shadow: 0 1px 10px rgba(0,0,0,.5);
+  --hero-scrim: 0;
 }
 
 /* ---- scene palette: DAY ---- */
@@ -79,6 +83,10 @@ html.day {
   --lamp-glow-op: .05; --lamp-cone-op: 0; --lamp-bulb-op: .22;
   --led-op: .3;       --fairy-op: .28;
   --night-vis: 0;     --day-vis: 1;
+  --hero-fg: #fff9ec;  --hero-sub: #f2e0c2;
+  --hero-shadow: 0 2px 12px rgba(24,14,22,.55), 0 8px 38px rgba(24,14,22,.45);
+  --hero-sub-shadow: 0 1px 9px rgba(24,14,22,.65);
+  --hero-scrim: 1;
 }
 
 /* ---- palette-driven scene fills ---- */
@@ -177,14 +185,32 @@ html, body {
   padding: 0 16px;
   transition: opacity .4s ease;
 }
+.hero-title::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: min(1180px, 124%);
+  height: 300%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--hero-scrim);
+  transition: opacity .9s ease;
+  background: radial-gradient(ellipse at center,
+    rgba(26,17,24,.58) 0%,
+    rgba(26,17,24,.52) 40%,
+    rgba(26,17,24,.24) 62%,
+    rgba(26,17,24,0)   78%);
+}
 .room-wrap.panel-open .hero-title { opacity: 0; }
 .hero-title h1 {
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(1.7rem, 4.4vw, 3.4rem);
   letter-spacing: .08em;
-  color: var(--paper);
-  text-shadow: 0 2px 26px rgba(0,0,0,.6);
+  color: var(--hero-fg);
+  text-shadow: var(--hero-shadow);
+  transition: color .9s ease, text-shadow .9s ease;
 }
 .hero-title p {
   margin-top: 8px;
@@ -192,7 +218,9 @@ html, body {
   font-weight: 500;
   letter-spacing: .34em;
   text-transform: uppercase;
-  color: #c8ab84;
+  color: var(--hero-sub);
+  text-shadow: var(--hero-sub-shadow);
+  transition: color .9s ease, text-shadow .9s ease;
 }
 
 /* ============================================================
@@ -366,7 +394,7 @@ html.day .ico-moon { opacity: 0; }
     justify-content: flex-start;
   }
   .hero-title {
-    position: static;
+    position: relative;
     transform: none;
     margin: 0 auto;
     padding: 0 62px;
